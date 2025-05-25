@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: postgres
+    ports:
+      - "5437:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres_user -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  catalog_service:
+    build:
+      context: ./catalog_service
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres_user:postgres_password@postgres:5432/postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  order_service:
+    build:
+      context: ./order_service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=postgresql://postgres_user:postgres_password@postgres:5432/postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data: 

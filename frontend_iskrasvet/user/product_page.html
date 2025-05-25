@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница товара | ИскраСвет</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/api.js"></script>
+    <script src="./js/product.js" defer></script>
+    <script src="./js/cart.js" defer></script>
+</head>
+<body class="product-page">
+    <div class="container">
+        <div class="header">
+            <a href="main_page.html" class="shop-name">ИскраСвет</a>
+            <div class="header-buttons">
+                <a href="cart.html" class="cart-info">Корзина <span id="cart-item-count">0</span></a>
+                <a href="make_order.html" class="order-link">Оформить заказ</a>
+            </div>
+        </div>
+    </div>
+    <div class="product-container">
+        <div class="product-image">
+            <img id="product-img" src="" alt="Изображение товара">
+        </div>
+        <div class="product-details">
+            <h1 class="product-title" id="product-title"></h1>
+            <p class="product-description" id="product-description"></p>
+            <div class="product-price" id="product-price"></div>
+            <div class="add-to-cart-section">
+                <button class="add-to-cart-button">В корзину</button>
+                <div class="availability" id="product-availability"></div>
+            </div>
+        </div>
+    </div>
+    <div class="contacts">
+        <div class="container">
+            <h3>Контакты магазина</h3>
+            <p>Телефон: +7 (999) 888-77-66</p>
+            <p>Email: iskrasvet@example.ru</p>
+            <p>Адрес: г. Москва, ул. Искрасвет</p>
+        </div>
+    </div>
+    <div id="toast-container"></div>
+    <div class="bottom-divider"></div>
+</body>
+</html>
