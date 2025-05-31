@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр заказа — ИскраСвет</title>
+    <!-- <link rel="stylesheet" href="../user/css/style.css"> -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header>
+        <div class="logo">ИскраСвет</div>
+        <nav>
+            <a href="main_page.html">Главная</a>
+            <a href="order_management.html">Управление заказами</a>
+            <a href="product_management.html">Управление товарами</a>
+            <button class="logout-btn">Выйти</button>
+        </nav>
+    </header>
+    <main>
+        <h2>Просмотр заказа</h2>
+        <div class="order-details"></div>
+        <label>Статус заказа:
+            <select class="order-status-select">
+                <option value="Новый">Новый</option>
+                <option value="В пути">В пути</option>
+                <option value="Завершен">Завершен</option>
+                <option value="В обработке">В обработке</option>
+                <option value="Доставлен">Доставлен</option>
+            </select>
+        </label>
+        <button class="change-status-btn button-orange">Изменить статус заказа</button>
+    </main>
+    <script type="module" src="js/view_order.js"></script>
+</body>
+</html>

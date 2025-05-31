@@ -19,12 +19,13 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Catalog Service")
 
-# Настройка CORS
 origins = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "http://0.0.0.0:8000",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://0.0.0.0:8003",
 ]
 
 app.add_middleware(
@@ -183,6 +184,11 @@ def make_order(order: OrderRequest, db: Session = Depends(get_db)):
     db.add(new_order)
     db.commit()
     return {"message": "Заказ оформлен успешно!"}
+
+@app.get("/debug/products/count")
+def get_products_count(db: Session = Depends(get_db)):
+    count = db.query(models.Product).count()
+    return {"count": count}
 
 if __name__ == "__main__":
     import uvicorn

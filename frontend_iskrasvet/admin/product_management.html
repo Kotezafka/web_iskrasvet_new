@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление товарами — ИскраСвет</title>
+    <!-- <link rel="stylesheet" href="../user/css/style.css"> -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header>
+        <div class="logo">ИскраСвет</div>
+        <nav>
+            <a href="main_page.html">Главная</a>
+            <a href="order_management.html">Управление заказами</a>
+            <a href="product_management.html" class="active">Управление товарами</a>
+            <button onclick="window.location.href='create_new_product.html'" class="button-orange" style="margin-left:2rem;">Создать новый товар</button>
+            <button class="logout-btn">Выйти</button>
+        </nav>
+    </header>
+    <main>
+        <h2>Управление товарами</h2>
+        <div class="products-list"></div>
+    </main>
+    <script type="module" src="js/product_management.js"></script>
+</body>
+</html>

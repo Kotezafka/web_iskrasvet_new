@@ -1,0 +1,239 @@
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+header {
+    padding: 1.5rem 2rem 0.5rem 2rem;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+nav {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-right: 0.5rem;
+    transition: color 0.2s;
+}
+nav a.active, nav a:hover {
+    color: #FFA733;
+    border-bottom: 2px solid #FFA733;
+}
+.button-orange, button.button-orange {
+    background: #FFA733;
+    color: #222;
+    border: none;
+    border-radius: 3px;
+    padding: 0.5rem 1.2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.button-orange:hover {
+    background: #ffb84d;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+}
+h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+.products-list, .orders-table {
+    width: 100%;
+    max-width: 700px;
+}
+.product-item {
+    display: flex;
+    align-items: center;
+    background: #181818;
+    border-radius: 8px;
+    margin-bottom: 1.2rem;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px #0008;
+}
+.product-image-block {
+    width: 90px;
+    height: 90px;
+    background: #FFA733;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    margin-right: 1.5rem;
+}
+.product-image {
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 4px;
+    background: #fff;
+}
+.no-image {
+    color: #222;
+    font-size: 0.95rem;
+    text-align: center;
+}
+.product-info {
+    flex: 1;
+}
+.product-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+.product-stock {
+    color: #FFA733;
+    margin-bottom: 0.7rem;
+}
+.edit-btn, .delete-btn {
+    margin-right: 0.7rem;
+    margin-bottom: 0.3rem;
+    background: #fff;
+    color: #222;
+    border: none;
+    border-radius: 3px;
+    padding: 0.4rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.edit-btn:hover {
+    background: #FFA733;
+    color: #222;
+}
+.delete-btn:hover {
+    background: #ff4d4d;
+    color: #fff;
+}
+.product-form {
+    background: #181818;
+    padding: 2rem 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0008;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    min-width: 340px;
+}
+.product-form label {
+    color: #fff;
+    font-size: 1rem;
+}
+.product-form input, .product-form textarea, .product-form select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #FFA733;
+    background: #222;
+    color: #fff;
+    margin-top: 0.3rem;
+    font-size: 1rem;
+}
+.orders-table {
+    background: #181818;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0008;
+    width: 100%;
+    max-width: 700px;
+    margin-top: 1.5rem;
+    color: #fff;
+}
+.orders-table th, .orders-table td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+}
+.orders-table th {
+    background: #222;
+    color: #FFA733;
+    font-weight: 600;
+}
+.orders-table tr {
+    border-bottom: 1px solid #333;
+}
+.orders-table tr:last-child {
+    border-bottom: none;
+}
+.orders-table .view-btn {
+    background: #FFA733;
+    color: #222;
+    border: none;
+    border-radius: 3px;
+    padding: 0.4rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.orders-table .view-btn:hover {
+    background: #ffb84d;
+}
+.order-details {
+    background: #181818;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0008;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    min-width: 340px;
+    color: #fff;
+}
+.order-status-select {
+    background: #222;
+    color: #fff;
+    border: 1px solid #FFA733;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    margin-left: 0.7rem;
+}
+.change-status-btn {
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+.logout-btn {
+    background: #fff;
+    color: #222;
+    border: none;
+    border-radius: 3px;
+    padding: 0.4rem 1.2rem;
+    font-weight: 500;
+    margin-left: 1.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.logout-btn:hover {
+    background: #FFA733;
+    color: #222;
+}
+@media (max-width: 700px) {
+    main, .products-list, .orders-table, .order-details, .product-form {
+        min-width: unset;
+        max-width: 98vw;
+        padding: 1rem;
+    }
+    .product-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .product-image-block {
+        margin-bottom: 1rem;
+        margin-right: 0;
+    }
+} 
