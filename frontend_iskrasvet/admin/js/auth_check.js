@@ -1,24 +1,12 @@
-import { checkAuth, handleLogout } from './auth_check.js';
-
 const AUTH_SERVICE_URL = 'http://localhost:5002/api/auth';
 
-document.addEventListener('DOMContentLoaded', async () => {
-    if (!await checkAuth()) {
-        return;
+export async function checkAuth() {
+    const token = localStorage.getItem('adminToken');
+    if (!token) {
+        window.location.href = 'auth_page.html';
+        return false;
     }
 
-    document.querySelector('.products-btn')?.addEventListener('click', () => {
-        window.location.href = 'product_management.html';
-    });
-    
-    document.querySelector('.orders-btn')?.addEventListener('click', () => {
-        window.location.href = 'order_management.html';
-    });
-    
-    document.querySelector('.logout-btn')?.addEventListener('click', handleLogout);
-});
-
-async function verifyToken(token) {
     try {
         const response = await fetch(`${AUTH_SERVICE_URL}/verify`, {
             headers: {
@@ -30,10 +18,19 @@ async function verifyToken(token) {
             localStorage.removeItem('adminToken');
             localStorage.removeItem('adminUsername');
             window.location.href = 'auth_page.html';
+            return false;
         }
+        return true;
     } catch (error) {
         localStorage.removeItem('adminToken');
         localStorage.removeItem('adminUsername');
         window.location.href = 'auth_page.html';
+        return false;
     }
+}
+
+export function handleLogout() {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUsername');
+    window.location.href = 'auth_page.html';
 } 

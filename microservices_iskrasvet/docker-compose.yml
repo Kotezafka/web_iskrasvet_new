@@ -17,6 +17,18 @@ services:
       timeout: 5s
       retries: 5
 
+  auth_service:
+    build:
+      context: ./auth_service
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5002"
+    environment:
+      - JWT_SECRET_KEY=your-secret-key-here
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   catalog_service:
     build:
       context: ./catalog_service
