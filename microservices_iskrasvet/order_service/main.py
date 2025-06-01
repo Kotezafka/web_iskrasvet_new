@@ -6,6 +6,8 @@ from datetime import datetime
 from pydantic import BaseModel, EmailStr, validator
 import re
 import logging
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 
 from database import get_db, engine
 import models
@@ -13,9 +15,18 @@ import models
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+models.Base.metadata.drop_all(bind=engine)
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Order Service")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8000", "http://localhost:8001"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ProductInOrder(BaseModel):
     productId: uuid.UUID
@@ -74,9 +85,18 @@ def get_order(order_id: uuid.UUID, db: Session = Depends(get_db)):
 @app.post("/orders", response_model=OrderResponse, status_code=201)
 def create_order(order: OrderCreate, db: Session = Depends(get_db)):
     try:
-        total_price = sum(product.quantity * 100 for product in order.products)
-        
-        products_data = [product.dict() for product in order.products]
+        total_price = 0
+        products_data = []
+        for product in order.products:
+            db_product = db.execute(
+                text("SELECT price FROM products WHERE id = :id"),
+                {"id": str(product.productId)}
+            ).fetchone()
+            if not db_product:
+                raise HTTPException(status_code=400, detail=f"Product with id {product.productId} not found")
+            price = db_product[0]
+            total_price += product.quantity * price
+            products_data.append(product.dict())
         
         db_order = models.Order(
             customer_name=order.customer_name,
@@ -107,17 +127,26 @@ def update_order(order_id: uuid.UUID, order_update: OrderUpdate, db: Session = D
         
         valid_statuses = ["created", "processing", "shipped", "delivered", "cancelled"]
         if order_update.status not in valid_statuses:
-            raise HTTPException(status_code=400, detail="Invalid status")
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Invalid status. Must be one of: {', '.join(valid_statuses)}"
+            )
         
         db_order.status = order_update.status
         db_order.updated_at = datetime.utcnow()
         
-        db.commit()
-        db.refresh(db_order)
-        return db_order
+        try:
+            db.commit()
+            db.refresh(db_order)
+            return db_order
+        except Exception as e:
+            logger.error(f"Database error while updating order: {str(e)}")
+            db.rollback()
+            raise HTTPException(status_code=500, detail="Database error while updating order")
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error updating order: {str(e)}")
-        db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.delete("/orders/{order_id}", status_code=204)

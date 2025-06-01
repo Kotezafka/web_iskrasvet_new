@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 import uuid
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, validator
 import logging
 import base64
 
@@ -19,22 +19,12 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Catalog Service")
 
-origins = [
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://0.0.0.0:8000",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://0.0.0.0:8003",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:8000", "http://localhost:8001"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["*"]
 )
 
 class ProductBase(BaseModel):
