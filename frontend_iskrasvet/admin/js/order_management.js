@@ -1,34 +1,23 @@
-import { checkAuth, handleLogout } from './auth_check.js';
+import { fetchOrders } from './api.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    if (!await checkAuth()) {
-        return;
-    }
-
-    document.querySelector('.logout-btn')?.addEventListener('click', handleLogout);
-
-    loadOrders();
-});
-
-async function loadOrders() {
+    const ordersContainer = document.querySelector('.orders-list');
     try {
-        const response = await fetch('http://localhost:3001/api/orders', {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+        const orders = await fetchOrders();
+        ordersContainer.innerHTML = orders.map(order => `
+            <tr>
+                <td>${order.id}</td>
+                <td>${order.status || 'Новый'}</td>
+                <td>${order.total_price ? order.total_price + ' руб' : ''}</td>
+                <td><button class="view-btn" data-id="${order.id}">Просмотр заказа</button></td>
+            </tr>
+        `).join('');
+        ordersContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('view-btn')) {
+                window.location.href = `view_order.html?id=${e.target.dataset.id}`;
             }
         });
-        
-        if (response.ok) {
-            const orders = await response.json();
-            displayOrders(orders);
-        }
-    } catch (error) {
-        console.error('Error loading orders:', error);
+    } catch (err) {
+        ordersContainer.innerHTML = '<tr><td colspan="4">Ошибка загрузки заказов</td></tr>';
     }
-}
-
-function displayOrders(orders) {
-    const ordersTable = document.querySelector('.orders-table');
-    if (!ordersTable) return;
-
-} 
+}); 

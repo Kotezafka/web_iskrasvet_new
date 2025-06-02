@@ -1,39 +1,11 @@
-import { checkAuth, handleLogout } from './auth_check.js';
-
-const AUTH_SERVICE_URL = 'http://localhost:5002/api/auth';
-
-document.addEventListener('DOMContentLoaded', async () => {
-    if (!await checkAuth()) {
-        return;
-    }
-
-    document.querySelector('.products-btn')?.addEventListener('click', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.products-btn').onclick = () => {
         window.location.href = 'product_management.html';
-    });
-    
-    document.querySelector('.orders-btn')?.addEventListener('click', () => {
+    };
+    document.querySelector('.orders-btn').onclick = () => {
         window.location.href = 'order_management.html';
-    });
-    
-    document.querySelector('.logout-btn')?.addEventListener('click', handleLogout);
-});
-
-async function verifyToken(token) {
-    try {
-        const response = await fetch(`${AUTH_SERVICE_URL}/verify`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        
-        if (!response.ok) {
-            localStorage.removeItem('adminToken');
-            localStorage.removeItem('adminUsername');
-            window.location.href = 'auth_page.html';
-        }
-    } catch (error) {
-        localStorage.removeItem('adminToken');
-        localStorage.removeItem('adminUsername');
+    };
+    document.querySelector('.logout-btn').onclick = () => {
         window.location.href = 'auth_page.html';
-    }
-} 
+    };
+}); 

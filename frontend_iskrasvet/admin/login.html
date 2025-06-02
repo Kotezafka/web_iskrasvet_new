@@ -4,82 +4,24 @@
     <meta charset="UTF-8">
     <title>Вход в панель управления — ИскраСвет</title>
     <link rel="stylesheet" href="css/admin.css">
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background: #000;
-        }
-        main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100vw;
-        }
-        h2 {
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .login-form {
-            background: #181818;
-            padding: 2rem 2.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px #0008;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            min-width: 340px;
-            max-width: 350px;
-            width: 100%;
-            align-items: stretch;
-        }
-        .login-form input {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 4px;
-            border: 1px solid #FFA733;
-            background: #222;
-            color: #fff;
-            margin-top: 0.3rem;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-        .login-form button {
-            margin-top: 1rem;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .error-message {
-            color: #ff4d4d;
-            margin-top: 0.7rem;
-            text-align: center;
-            min-height: 1.2em;
-            font-size: 1rem;
-        }
-    </style>
 </head>
 <body>
-    <header>
-        <div class="logo">ИскраСвет</div>
-    </header>
-    <main>
-        <h2>Вход в панель управления</h2>
-        <form class="login-form" id="loginForm">
-            <div>
-                <label for="username">Имя пользователя:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div>
-                <label for="password">Пароль:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="button-orange">Войти</button>
-            <div id="errorMessage" class="error-message"></div>
-        </form>
-    </main>
-    <script type="module" src="js/login.js"></script>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Вход в панель управления</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Имя пользователя:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="button-orange">Войти</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/login.js"></script>
 </body>
 </html> 

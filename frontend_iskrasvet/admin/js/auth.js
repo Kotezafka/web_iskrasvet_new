@@ -1,58 +1,50 @@
-const AUTH_SERVICE_URL = 'http://localhost:5002/api/auth';
-
-document.addEventListener('DOMContentLoaded', () => {
+async function checkAuth() {
     const token = localStorage.getItem('adminToken');
-    if (token) {
-        verifyToken(token);
+    if (!token) {
+        window.location.href = 'login.html';
+        return false;
     }
-});
 
-document.querySelector('.login-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const errorMessage = document.querySelector('.error-message');
-    
     try {
-        const response = await fetch(`${AUTH_SERVICE_URL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-            localStorage.setItem('adminToken', data.token);
-            localStorage.setItem('adminUsername', data.username);
-            window.location.href = 'main_page.html';
-        } else {
-            errorMessage.textContent = data.message || 'Ошибка входа';
-        }
-    } catch (error) {
-        errorMessage.textContent = 'Ошибка соединения с сервером';
-    }
-});
-
-async function verifyToken(token) {
-    try {
-        const response = await fetch(`${AUTH_SERVICE_URL}/verify`, {
+        const response = await fetch('http://localhost:8004/users/me/', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
-        
-        if (response.ok) {
-            window.location.href = 'main_page.html';
-        } else {
-            localStorage.removeItem('adminToken');
-            localStorage.removeItem('adminUsername');
+
+        if (!response.ok) {
+            throw new Error('Unauthorized');
         }
+
+        return true;
     } catch (error) {
+        console.error('Ошибка проверки аутентификации:', error);
         localStorage.removeItem('adminToken');
-        localStorage.removeItem('adminUsername');
+        window.location.href = 'login.html';
+        return false;
     }
-} 
+}
+
+async function logout() {
+    try {
+        const token = localStorage.getItem('adminToken');
+        await fetch('http://localhost:8004/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    } catch (error) {
+        console.error('Ошибка при выходе:', error);
+    } finally {
+        localStorage.removeItem('adminToken');
+        window.location.href = 'login.html';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.querySelector('.logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', logout);
+    }
+}); 

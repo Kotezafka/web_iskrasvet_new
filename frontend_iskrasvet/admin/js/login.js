@@ -1,32 +1,30 @@
-const API_URL = 'http://localhost:5000/api';
-
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const errorMessage = document.getElementById('errorMessage');
-    
+
     try {
-        const response = await fetch(`${API_URL}/auth/login`, {
+        const response = await fetch('http://localhost:8004/token', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify({ username, password })
+            body: new URLSearchParams({
+                'username': username,
+                'password': password,
+            }),
         });
-        
-        const data = await response.json();
-        
+
         if (response.ok) {
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('username', data.username);
-            
+            const data = await response.json();
+            localStorage.setItem('adminToken', data.access_token);
             window.location.href = 'main_page.html';
         } else {
-            errorMessage.textContent = data.message || 'Ошибка входа';
+            alert('Неверное имя пользователя или пароль');
         }
     } catch (error) {
-        errorMessage.textContent = 'Ошибка соединения с сервером';
+        console.error('Ошибка при входе:', error);
+        alert('Произошла ошибка при попытке входа');
     }
 }); 
